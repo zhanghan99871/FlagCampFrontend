@@ -4,6 +4,7 @@ import './App.css';
 
 import Register from './pages/Register';
 import Login from './pages/Login';
+import HelloProtected from './pages/HelloProtected';
 
 function Home() {
   return (
@@ -20,6 +21,11 @@ function Home() {
             Go to Login
           </Link>
         </p>
+        <p>
+          <Link className="App-link" to="/hello">
+            Go to Protected Hello
+          </Link>
+        </p>
       </header>
     </div>
   );
@@ -33,6 +39,7 @@ function App() {
         <Route path="*" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/hello" element={<HelloProtected />} />
       </Routes>
     </Router>
   );

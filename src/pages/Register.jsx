@@ -28,20 +28,6 @@ function passwordStrength(pw) {
   return { score: clamped, label };
 }
 
-// async function fakeRegisterApi(payload) {
-//   // Simulate a network request
-//   await new Promise((r) => setTimeout(r, 800));
-
-//   // Example: reject if email looks already used
-//   if (String(payload.email).toLowerCase().includes('taken')) {
-//     const err = new Error('This email is already registered. Try another one.');
-//     err.code = 'EMAIL_TAKEN';
-//     throw err;
-//   }
-
-//   return { ok: true, userId: 'demo-user-123' };
-// }
-
 export default function Register() {
   const navigate = useNavigate();
 
@@ -128,26 +114,6 @@ export default function Register() {
     setSubmitting(true);
     setServerError('');
     setSuccessMsg('');
-
-    // try {
-    //   const payload = {
-    //     fullName: String(form.fullName).trim(),
-    //     email: String(form.email).trim(),
-    //     password: form.password,
-    //   };
-
-    //   await fakeRegisterApi(payload);
-    //   setSuccessMsg('Registration successful! Redirecting to home...');
-
-    //   // Redirect after a short delay
-    //   setTimeout(() => {
-    //     navigate('/');
-    //   }, 900);
-    // } catch (err) {
-    //   setServerError(err?.message || 'Registration failed. Please try again.');
-    // } finally {
-    //   setSubmitting(false);
-    // }
 
     try {
         await apiFetch('/signup', {
