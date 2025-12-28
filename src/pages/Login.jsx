@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { apiFetch } from '../api/client';
 
 // Matching style with Register.jsx
 // - Email + password
@@ -9,21 +10,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim());
-}
-
-async function fakeLoginApi(payload) {
-  await new Promise((r) => setTimeout(r, 700));
-
-  // Demo failure cases
-  if (String(payload.email).toLowerCase().includes('wrong')) {
-    throw new Error('Email or password is incorrect.');
-  }
-  if (String(payload.password) !== 'Password123!') {
-    // For demo: only one password works
-    throw new Error('Email or password is incorrect.');
-  }
-
-  return { ok: true, token: 'demo-token-abc' };
 }
 
 export default function Login() {
@@ -77,22 +63,23 @@ export default function Login() {
     setSuccessMsg('');
 
     try {
-      const payload = {
-        email: String(form.email).trim(),
-        password: form.password,
-        remember: !!form.remember,
-      };
+      const token = await apiFetch('/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+      });
 
-      await fakeLoginApi(payload);
-      setSuccessMsg('Logged in! Redirecting to home...');
+      localStorage.setItem('token', token);
+      setSuccessMsg('Logged in! Redirecting...');
+      setTimeout(() => navigate('/'), 300);
 
-      setTimeout(() => {
-        navigate('/');
-      }, 800);
+      navigate('/');
     } catch (err) {
-      setServerError(err?.message || 'Login failed. Please try again.');
+        setServerError(err.message || 'Login failed. Please try again.');
     } finally {
-      setSubmitting(false);
+        setSubmitting(false);
     }
   }
 
