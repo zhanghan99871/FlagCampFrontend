@@ -1,11 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { apiFetch } from '../api/client'; 
 
 // A simple, self-contained registration page.
 // - Client-side validation (email format, password strength, confirm password match)
 // - Show/Hide password
 // - Basic UX states (submitting, success, error)
-// - No backend required (demo submit). Replace `fakeRegisterApi` with real API call later.
 
 function isValidEmail(email) {
   // Practical email check (not perfect by design, but good for UI validation)
@@ -28,19 +28,19 @@ function passwordStrength(pw) {
   return { score: clamped, label };
 }
 
-async function fakeRegisterApi(payload) {
-  // Simulate a network request
-  await new Promise((r) => setTimeout(r, 800));
+// async function fakeRegisterApi(payload) {
+//   // Simulate a network request
+//   await new Promise((r) => setTimeout(r, 800));
 
-  // Example: reject if email looks already used
-  if (String(payload.email).toLowerCase().includes('taken')) {
-    const err = new Error('This email is already registered. Try another one.');
-    err.code = 'EMAIL_TAKEN';
-    throw err;
-  }
+//   // Example: reject if email looks already used
+//   if (String(payload.email).toLowerCase().includes('taken')) {
+//     const err = new Error('This email is already registered. Try another one.');
+//     err.code = 'EMAIL_TAKEN';
+//     throw err;
+//   }
 
-  return { ok: true, userId: 'demo-user-123' };
-}
+//   return { ok: true, userId: 'demo-user-123' };
+// }
 
 export default function Register() {
   const navigate = useNavigate();
@@ -129,25 +129,43 @@ export default function Register() {
     setServerError('');
     setSuccessMsg('');
 
+    // try {
+    //   const payload = {
+    //     fullName: String(form.fullName).trim(),
+    //     email: String(form.email).trim(),
+    //     password: form.password,
+    //   };
+
+    //   await fakeRegisterApi(payload);
+    //   setSuccessMsg('Registration successful! Redirecting to home...');
+
+    //   // Redirect after a short delay
+    //   setTimeout(() => {
+    //     navigate('/');
+    //   }, 900);
+    // } catch (err) {
+    //   setServerError(err?.message || 'Registration failed. Please try again.');
+    // } finally {
+    //   setSubmitting(false);
+    // }
+
     try {
-      const payload = {
-        fullName: String(form.fullName).trim(),
-        email: String(form.email).trim(),
-        password: form.password,
-      };
-
-      await fakeRegisterApi(payload);
-      setSuccessMsg('Registration successful! Redirecting to home...');
-
-      // Redirect after a short delay
-      setTimeout(() => {
-        navigate('/');
-      }, 900);
-    } catch (err) {
-      setServerError(err?.message || 'Registration failed. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
+        await apiFetch('/signup', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: String(form.fullName).trim(),
+            email: String(form.email).trim(),
+            password: form.password,
+          }),
+        });
+  
+        setSuccessMsg('Register successful! Redirecting to login...');
+        setTimeout(() => navigate('/login'), 800);
+      } catch (err) {
+        setServerError(err?.message || 'Register failed. Please try again.');
+      } finally {
+        setSubmitting(false);
+      }
   }
 
   const fieldStyle = {
