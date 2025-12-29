@@ -65,10 +65,8 @@ export default function Login() {
     try {
       const data = await apiFetch('/auth/login', {
         method: 'POST',
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-        }),
+        headers: { 'Content-Type': 'application/json' }, // 覆盖掉自动 headers 也行
+        body: JSON.stringify({ email: form.email, password: form.password }),
       });
 
       // Expect backend to return a JSON object, e.g. { token, user, expiresAt, ... }
@@ -84,10 +82,24 @@ export default function Login() {
       setSuccessMsg('Logged in! Redirecting...');
       setTimeout(() => navigate('/'), 300);
     } catch (err) {
+        // ✅ 401: 未认证/账号密码错/token 失效（按你后端定义）
+        if (err.status === 401) {
+          localStorage.removeItem('token');
+          setServerError('Invalid email or password.');
+          return;
+        }
+      
+        // ✅ 403: 已认证但无权限 / 被禁用 / CSRF 等（按你后端定义）
+        if (err.status === 403) {
+          localStorage.removeItem('token');
+          setServerError('Access denied. Please log in again.');
+          return;
+        }
+      
         setServerError(err.message || 'Login failed. Please try again.');
-    } finally {
+      } finally {
         setSubmitting(false);
-    }
+      }
   }
 
   const sideAddonWidth = 72;
