@@ -31,7 +31,7 @@ export default function Login() {
       }
 
       localStorage.setItem('token', token);
-      message.success('登录成功！');
+      message.success('Login successful!');
 
       setTimeout(() => {
         navigate('/hello');
@@ -40,12 +40,12 @@ export default function Login() {
     } catch (err) {
       if (err.status === 401) {
         localStorage.removeItem('token');
-        message.error('邮箱或密码错误');
+        message.error('Invalid email or password');
       } else if (err.status === 403) {
         localStorage.removeItem('token');
-        message.error('访问被拒绝，请重新登录');
+        message.error('Access denied. Please log in again');
       } else {
-        message.error(err.message || '登录失败，请重试');
+        message.error(err.message || 'Login failed. Please try again');
       }
     } finally {
       setLoading(false);
@@ -57,11 +57,11 @@ export default function Login() {
         <div className="auth-content">
           <div className="auth-header">
             <h1 className="auth-logo">🌍 Trip Planner</h1>
-            <p className="auth-subtitle">你的智能旅行规划助手</p>
+            <p className="auth-subtitle">Your Smart Travel Planning Assistant</p>
           </div>
 
           <Card className="auth-card">
-            <h2 style={{ marginBottom: 24, fontSize: 24, fontWeight: 600 }}>欢迎回来</h2>
+            <h2 style={{ marginBottom: 24, fontSize: 24, fontWeight: 600 }}>Welcome Back</h2>
 
             <Form
                 form={form}
@@ -73,10 +73,10 @@ export default function Login() {
             >
               <Form.Item
                   name="email"
-                  label="邮箱"
+                  label="Email"
                   rules={[
-                    { required: true, message: '请输入邮箱地址' },
-                    { type: 'email', message: '请输入有效的邮箱地址' }
+                    { required: true, message: 'Please enter your email' },
+                    { type: 'email', message: 'Please enter a valid email address' }
                   ]}
               >
                 <Input
@@ -88,15 +88,15 @@ export default function Login() {
 
               <Form.Item
                   name="password"
-                  label="密码"
+                  label="Password"
                   rules={[
-                    { required: true, message: '请输入密码' },
-                    { min: 6, message: '密码至少需要6个字符' }
+                    { required: true, message: 'Please enter your password' },
+                    { min: 6, message: 'Password must be at least 6 characters' }
                   ]}
               >
                 <Input.Password
                     prefix={<LockOutlined />}
-                    placeholder="输入密码"
+                    placeholder="Enter your password"
                     autoComplete="current-password"
                 />
               </Form.Item>
@@ -104,9 +104,9 @@ export default function Login() {
               <Form.Item>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>记住我</Checkbox>
+                    <Checkbox>Remember me</Checkbox>
                   </Form.Item>
-                  <a href="#" className="auth-link">忘记密码？</a>
+                  <a href="#" className="auth-link">Forgot password?</a>
                 </div>
               </Form.Item>
 
@@ -118,18 +118,18 @@ export default function Login() {
                     loading={loading}
                     className="auth-button"
                 >
-                  登录
+                  Log In
                 </Button>
               </Form.Item>
 
               <div className="auth-footer-text">
-                还没有账号？ <a onClick={() => navigate('/auth/register')} className="auth-link">立即注册</a>
+                Don't have an account? <a onClick={() => navigate('/auth/register')} className="auth-link">Sign up</a>
               </div>
             </Form>
           </Card>
 
           <div className="auth-copyright">
-            © 2024 Trip Planner. All rights reserved.
+            © 2026 Trip Planner. All rights reserved.
           </div>
         </div>
       </div>
