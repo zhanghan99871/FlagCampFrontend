@@ -63,7 +63,7 @@ export default function Login() {
     setSuccessMsg('');
 
     try {
-      const token = await apiFetch('/auth/login', {
+      const data = await apiFetch('/auth/login', {
         method: 'POST',
         body: JSON.stringify({
           email: form.email,
@@ -71,11 +71,18 @@ export default function Login() {
         }),
       });
 
+      // Expect backend to return a JSON object, e.g. { token, user, expiresAt, ... }
+      const token = data.token;
+      // user data if needed
+      const user = data.user;
+
+      if (!token) {
+        throw new Error('Login response did not include token');
+      }
+
       localStorage.setItem('token', token);
       setSuccessMsg('Logged in! Redirecting...');
       setTimeout(() => navigate('/'), 300);
-
-      navigate('/');
     } catch (err) {
         setServerError(err.message || 'Login failed. Please try again.');
     } finally {
