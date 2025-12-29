@@ -12,12 +12,12 @@ function Home() {
       <header className="App-header">
         <img src={myLogo} className="App-logo" alt="logo" />
         <p>
-          <Link className="App-link" to="/register">
+          <Link className="App-link" to="/auth/register">
             Go to Register
           </Link>
         </p>
         <p>
-          <Link className="App-link" to="/login">
+          <Link className="App-link" to="/auth/login">
             Go to Login
           </Link>
         </p>
@@ -37,8 +37,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/auth/register" element={<Register />} />
+        <Route path="/auth/login" element={<Login />} />
         <Route path="/hello" element={<HelloProtected />} />
       </Routes>
     </Router>

@@ -63,7 +63,7 @@ export default function Login() {
     setSuccessMsg('');
 
     try {
-      const token = await apiFetch('/login', {
+      const token = await apiFetch('/auth/login', {
         method: 'POST',
         body: JSON.stringify({
           email: form.email,
@@ -289,7 +289,7 @@ export default function Login() {
           </button>
 
           <div style={{ marginTop: 14, fontSize: 13, opacity: 0.9 }}>
-            Don&apos;t have an account? <Link to="/register" style={linkStyle}>Create one</Link>
+            Don&apos;t have an account? <Link to="/auth/register" style={linkStyle}>Create one</Link>
           </div>
 
           {/* <div style={{ marginTop: 10, fontSize: 12, opacity: 0.75, lineHeight: 1.5 }}>
