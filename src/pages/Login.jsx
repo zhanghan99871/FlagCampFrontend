@@ -63,24 +63,43 @@ export default function Login() {
     setSuccessMsg('');
 
     try {
-      const token = await apiFetch('/login', {
+      const data = await apiFetch('/auth/login', {
         method: 'POST',
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-        }),
+        headers: { 'Content-Type': 'application/json' }, // 覆盖掉自动 headers 也行
+        body: JSON.stringify({ email: form.email, password: form.password }),
       });
+
+      // Expect backend to return a JSON object, e.g. { token, user, expiresAt, ... }
+      const token = data.token;
+      // user data if needed
+      const user = data.user;
+
+      if (!token) {
+        throw new Error('Login response did not include token');
+      }
 
       localStorage.setItem('token', token);
       setSuccessMsg('Logged in! Redirecting...');
       setTimeout(() => navigate('/'), 300);
-
-      navigate('/');
     } catch (err) {
+        // ✅ 401: 未认证/账号密码错/token 失效（按你后端定义）
+        if (err.status === 401) {
+          localStorage.removeItem('token');
+          setServerError('Invalid email or password.');
+          return;
+        }
+      
+        // ✅ 403: 已认证但无权限 / 被禁用 / CSRF 等（按你后端定义）
+        if (err.status === 403) {
+          localStorage.removeItem('token');
+          setServerError('Access denied. Please log in again.');
+          return;
+        }
+      
         setServerError(err.message || 'Login failed. Please try again.');
-    } finally {
+      } finally {
         setSubmitting(false);
-    }
+      }
   }
 
   const sideAddonWidth = 72;
@@ -289,7 +308,7 @@ export default function Login() {
           </button>
 
           <div style={{ marginTop: 14, fontSize: 13, opacity: 0.9 }}>
-            Don&apos;t have an account? <Link to="/register" style={linkStyle}>Create one</Link>
+            Don&apos;t have an account? <Link to="/auth/register" style={linkStyle}>Create one</Link>
           </div>
 
           {/* <div style={{ marginTop: 10, fontSize: 12, opacity: 0.75, lineHeight: 1.5 }}>

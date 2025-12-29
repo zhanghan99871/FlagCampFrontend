@@ -11,7 +11,7 @@ export default function HelloProtected() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      navigate('/login');
+      navigate('/auth/login');
       return;
     }
 
@@ -22,7 +22,7 @@ export default function HelloProtected() {
       } catch (e) {
         setErr(e?.message || 'Request failed');
         // token 失效/被拒绝的话可以直接踢回登录
-        navigate('/login');
+        navigate('/auth/login');
       } finally {
         setLoading(false);
       }
@@ -32,7 +32,7 @@ export default function HelloProtected() {
   return (
     <div style={{ padding: 24 }}>
       <div style={{ marginBottom: 12 }}>
-        <Link to="/">Home</Link> | <button onClick={() => { localStorage.removeItem('token'); navigate('/login'); }}>Logout</button>
+        <Link to="/">Home</Link> | <button onClick={() => { localStorage.removeItem('token'); navigate('/auth/login'); }}>Logout</button>
       </div>
 
       <h2>Protected Hello</h2>

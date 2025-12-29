@@ -10,12 +10,23 @@ export async function apiFetch(path, options = {}) {
       },
     });
   
+    const ct = res.headers.get('content-type') || '';
+    const payload = ct.includes('application/json')
+      ? await res.json().catch(() => ({}))
+      : await res.text().catch(() => '');
+  
     if (!res.ok) {
-      const text = await res.text();
-      throw new Error(text || `HTTP ${res.status}`);
+      // payload 可能是 string 或 object
+      const message =
+        typeof payload === 'string'
+          ? payload
+          : payload?.message || payload?.error || `HTTP ${res.status}`;
+  
+      const err = new Error(message);
+      err.status = res.status;
+      err.data = payload;
+      throw err;
     }
   
-    const ct = res.headers.get('content-type') || '';
-    if (ct.includes('application/json')) return res.json();
-    return res.text();
+    return payload;
   }

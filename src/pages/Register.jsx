@@ -2,16 +2,14 @@ import React, { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiFetch } from '../api/client'; 
 
-// A simple, self-contained registration page.
-// - Client-side validation (email format, password strength, confirm password match)
-// - Show/Hide password
-// - Basic UX states (submitting, success, error)
-
+// Client-side email validation only; not a comprehensive check.
 function isValidEmail(email) {
   // Practical email check (not perfect by design, but good for UI validation)
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim());
 }
 
+// Password strength scoring: 0-4 scale based on length, case, digits, symbols.
+// Used to provide user feedback on password quality.
 function passwordStrength(pw) {
   const s = String(pw || '');
   // Score 0-4
@@ -28,9 +26,12 @@ function passwordStrength(pw) {
   return { score: clamped, label };
 }
 
+// Register page component: handles client-side validation, manages UX states (loading, errors, success),
+// and performs API call to register a new user.
 export default function Register() {
   const navigate = useNavigate();
 
+  // Form state fields correspond to backend payload keys or user inputs.
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -49,6 +50,7 @@ export default function Register() {
 
   const strength = useMemo(() => passwordStrength(form.password), [form.password]);
 
+  // Centralized validation logic for all fields, re-computed when form or password strength changes.
   const errors = useMemo(() => {
     const e = {};
 
@@ -74,6 +76,8 @@ export default function Register() {
     return e;
   }, [form, strength.score]);
 
+  // Submission is enabled only if not submitting, no server error, no validation errors,
+  // and all required fields are filled and agreed.
   const canSubmit = useMemo(() => {
     return (
       !submitting &&
@@ -97,6 +101,11 @@ export default function Register() {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
+  // Handles form submission:
+  // - Marks all fields as touched to trigger validation UI
+  // - If validation passes, sends POST request to signup endpoint
+  // - Handles success by showing message and redirecting
+  // - Handles errors by displaying server error message
   async function onSubmit(e) {
     e.preventDefault();
 
@@ -115,8 +124,9 @@ export default function Register() {
     setServerError('');
     setSuccessMsg('');
 
+    // API call to register user with expected payload shape.
     try {
-        await apiFetch('/signup', {
+        await apiFetch('/auth/signup', {
           method: 'POST',
           body: JSON.stringify({
             username: String(form.fullName).trim(),
@@ -126,7 +136,7 @@ export default function Register() {
         });
   
         setSuccessMsg('Register successful! Redirecting to login...');
-        setTimeout(() => navigate('/login'), 800);
+        setTimeout(() => navigate('/auth/login'), 800);
       } catch (err) {
         setServerError(err?.message || 'Register failed. Please try again.');
       } finally {
@@ -134,6 +144,7 @@ export default function Register() {
       }
   }
 
+  // Inline styles used to closely match design without external CSS files.
   const fieldStyle = {
     width: '100%',
     boxSizing: 'border-box',
@@ -206,6 +217,10 @@ export default function Register() {
     return `${pct}%`;
   }
 
+  // JSX layout structure:
+  // - Full page container with background and centering
+  // - Card container with header, alerts, and form
+  // - Form includes inputs, validation messages, password strength, and submission controls
   return (
     <div
       style={{
@@ -421,13 +436,8 @@ export default function Register() {
           </button>
 
           <div style={{ marginTop: 14, fontSize: 13, opacity: 0.9 }}>
-            Already have an account? <Link to="/login" style={linkStyle}>Sign in</Link>.{' '}
-            {/* <span style={{ opacity: 0.8 }}>(Login page not implemented yet)</span> */}
+            Already have an account? <Link to="/auth/login" style={linkStyle}>Sign in</Link>.{' '}
           </div>
-
-          {/* <div style={{ marginTop: 10, fontSize: 12, opacity: 0.75, lineHeight: 1.5 }}>
-            Tip: try an email containing <b>taken</b> (e.g. <i>taken@example.com</i>) to see the demo server error.
-          </div> */}
         </form>
       </div>
     </div>
