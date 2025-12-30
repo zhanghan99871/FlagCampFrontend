@@ -17,6 +17,28 @@ export default function Login() {
     setLoading(true);
 
     try {
+      // 🔥 假账号验证逻辑（优先检查）
+      if (values.email === 'admin@gmail.com' && values.password === '12345678') {
+        // 生成假 token
+        const fakeToken = 'fake-jwt-token-' + Date.now();
+        localStorage.setItem('token', fakeToken);
+        localStorage.setItem('user', JSON.stringify({
+          email: 'admin@gmail.com',
+          username: 'Admin User',
+          id: 1
+        }));
+
+        message.success('Login successful!');
+
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 500);
+
+        setLoading(false);
+        return; // 直接返回，不调用真实API
+      }
+
+      // 真实 API 调用（如果不是假账号）
       const data = await apiFetch('/auth/login', {
         method: 'POST',
         body: JSON.stringify({
@@ -31,10 +53,11 @@ export default function Login() {
       }
 
       localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(data.user || {}));
       message.success('Login successful!');
 
       setTimeout(() => {
-        navigate('/hello');
+        navigate('/dashboard');
       }, 500);
 
     } catch (err) {
@@ -51,7 +74,6 @@ export default function Login() {
       setLoading(false);
     }
   };
-
   return (
       <div className="auth-container">
         <div className="auth-content">
