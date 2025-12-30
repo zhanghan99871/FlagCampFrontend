@@ -83,8 +83,7 @@ export default function Dashboard() {
     };
 
     const handleNewTrip = () => {
-        // TODO: 跳转到地图创建页面
-        alert('Coming soon: Create new itinerary');
+        navigate('/map');
     };
 
     const handleViewTrip = (tripId) => {

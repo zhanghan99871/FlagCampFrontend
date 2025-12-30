@@ -6,7 +6,9 @@ to initialize and build the react project, you need to:
 2. `cd FlagCampFrontend`
 3. `npm install`
 4. `npm install antd @ant-design/icons`
-5. `npm run build`
+5. `npm install react-leaflet leaflet`
+5. `npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities`
+6. `npm run build`
 
 Then you can start the service via `npm start`
 
