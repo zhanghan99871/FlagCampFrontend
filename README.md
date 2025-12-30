@@ -12,3 +12,8 @@ to initialize and build the react project, you need to:
 
 Then you can start the service via `npm start`
 
+To Login the web app, use:
+Email: admin@gmail.com
+Passsword:12345678
+
+
