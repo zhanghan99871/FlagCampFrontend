@@ -1,0 +1,333 @@
+.map-view-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #f5f5f5;
+}
+
+/* 顶部导航栏 */
+.map-view-header {
+    background: white;
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    z-index: 100;
+}
+
+.map-view-logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.map-view-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* 主内容区 */
+.map-view-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+/* 左侧边栏 */
+.map-sidebar {
+    width: 25%;
+    min-width: 320px;
+    max-width: 400px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06);
+    z-index: 10;
+}
+
+.sidebar-search {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.sidebar-results {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+}
+
+/* POI 卡片 */
+.poi-card {
+    margin-bottom: 12px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.poi-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.poi-card.expanded {
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+}
+
+.poi-card .ant-card-body {
+    padding: 16px;
+}
+
+.poi-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.poi-card-title {
+    flex: 1;
+}
+
+.poi-card-title h4 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.poi-card-details {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.poi-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.rating-text {
+    font-weight: 600;
+    color: #faad14;
+    margin-left: 4px;
+}
+
+.poi-description {
+    margin: 12px 0 0 0;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* 地图容器 */
+.map-container {
+    flex: 1;
+    position: relative;
+}
+
+/* 底部时间线 */
+.map-timeline {
+    background: white;
+    border-top: 1px solid #e8e8e8;
+    padding: 20px 32px;
+    max-height: 200px;
+    overflow-x: auto;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.timeline-header {
+    margin-bottom: 16px;
+}
+
+.timeline-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.timeline-items {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* 可拖拽的 POI 项 */
+.sortable-poi-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f9f9f9;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    min-width: 200px;
+    transition: all 0.2s;
+}
+
+.sortable-poi-item:hover {
+    border-color: #667eea;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.poi-drag-handle {
+    cursor: grab;
+    color: #999;
+    font-size: 16px;
+}
+
+.poi-drag-handle:active {
+    cursor: grabbing;
+}
+
+.poi-item-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.poi-item-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1a1a1a;
+}
+
+.timeline-arrow {
+    font-size: 24px;
+    color: #667eea;
+    font-weight: bold;
+}
+
+/* 滚动条样式 */
+.sidebar-results::-webkit-scrollbar,
+.map-timeline::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.sidebar-results::-webkit-scrollbar-track,
+.map-timeline::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.sidebar-results::-webkit-scrollbar-thumb,
+.map-timeline::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.sidebar-results::-webkit-scrollbar-thumb:hover,
+.map-timeline::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .map-sidebar {
+        width: 30%;
+        min-width: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-view-content {
+        flex-direction: column;
+    }
+
+    .map-sidebar {
+        width: 100%;
+        max-width: none;
+        height: 40%;
+    }
+
+    .map-container {
+        height: 60%;
+    }
+
+    .map-timeline {
+        display: none;
+    }
+}
+
+/* Leaflet 自定义标记样式 */
+.custom-numbered-icon {
+    background: none;
+    border: none;
+}
+
+.marker-pin {
+    width: 30px;
+    height: 42px;
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.marker-pin::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin: 3px 0 0 3px;
+    background: white;
+    position: absolute;
+    border-radius: 50%;
+}
+
+.marker-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    color: #667eea;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 10;
+}
+
+/* 修改 POI 项样式，添加序号 */
+.poi-item-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+/* 调整 sortable-poi-item 布局 */
+.sortable-poi-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    min-width: 240px;
+    transition: all 0.2s;
+}
