@@ -1,0 +1,194 @@
+.dashboard-container {
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+/* 顶部导航栏 */
+.dashboard-header {
+    background: white;
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.dashboard-header-left {
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.dashboard-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.user-profile:hover {
+    background: #f5f5f5;
+}
+
+.user-name {
+    font-weight: 500;
+    color: #333;
+}
+
+/* 主内容区 */
+.dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 32px;
+}
+
+.dashboard-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.dashboard-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #1a1a1a;
+}
+
+.dashboard-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.new-trip-button {
+    height: 48px;
+    padding: 0 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+}
+
+.new-trip-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 行程网格 */
+.trips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
+
+/* 行程卡片 */
+.trip-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #e8e8e8;
+}
+
+.trip-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.trip-card .ant-card-body {
+    padding: 20px;
+}
+
+.trip-card .ant-card-actions {
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+}
+
+.trip-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.trip-thumbnail {
+    font-size: 48px;
+    line-height: 1;
+}
+
+.trip-city {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    color: #1a1a1a;
+}
+
+.trip-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.trip-info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.trip-info-item .anticon {
+    color: #667eea;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .dashboard-header {
+        padding: 0 16px;
+    }
+
+    .dashboard-content {
+        padding: 24px 16px;
+    }
+
+    .dashboard-title-bar {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .new-trip-button {
+        width: 100%;
+    }
+
+    .trips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-name {
+        display: none;
+    }
+}
